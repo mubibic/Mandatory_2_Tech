@@ -1,2 +1,4 @@
 # Mandatory_2_Tech
-Repository for the second mandatory assignment in Tech 1
+This is the application for the second mandatory assignment.
+
+Created by Team Teletearbies. 

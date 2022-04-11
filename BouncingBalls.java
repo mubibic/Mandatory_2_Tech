@@ -7,6 +7,7 @@ class BouncingBalls extends JFrame
 
     public BouncingBalls()
     {
+
         Random r = new Random();
         setResizable(false);
         setSize(400,400);
