@@ -1,25 +1,25 @@
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.Random;
 
-class BouncingBalls extends JFrame
-{
+class BouncingBalls extends JFrame {
 
-    public BouncingBalls()
-    {
+    private Ball balls[] = new Ball[3];
+
+
+    public BouncingBalls() {
 
         Random r = new Random();
         setResizable(false);
-        setSize(400,400);
+        setSize(400, 400);
 
         Ball ball1 = new Ball();
         Ball ball2 = new Ball();
         Ball ball3 = new Ball();
 
 
-        ball1.add(ball2);
-        ball2.add(ball3);
-        getContentPane().add(ball1);
+        //getContentPane().add(ball1);
         setVisible(true);
         Thread x = new Thread(ball1);
         Thread y = new Thread(ball2);
@@ -28,10 +28,25 @@ class BouncingBalls extends JFrame
         x.start();
         y.start();
         z.start();
+
+        balls[0] = ball1;
+        balls[1] = ball2;
+        balls[2] = ball3;
+
     }
-    public static void main(String[] args)
-    {
+
+    public static void main(String[] args) {
         new BouncingBalls();
+    }
+
+    public void paint(Graphics gr) {
+
+        super.paint(gr);
+
+        for (Ball ball : balls) {
+            gr.setColor(ball.getColor());
+            gr.fillOval(ball.x, ball.y, 30, 30);
+        }
 
     }
 }
