@@ -5,20 +5,18 @@ import java.util.Random;
 class BouncingBalls extends JFrame {
 
     public BouncingBalls() {
-
-        Random r = new Random();
         setResizable(false);
         setSize(400, 400);
 
-        //Id not needed, ArrayList index = ball id
-        Position ballPosition1 = new Position(1,1);
-        Position ballPosition2 = new Position(1,1);
-        Position ballPosition3 = new Position(1,1);
+        //Creating positions for balls, ArrayList index = ball id
+        Position position1 = new Position(1,1);
+        Position position2 = new Position(1,50);
+        Position position3 = new Position(1,100);
 
         ArrayList<Position> positionList = new ArrayList<>();
-        positionList.add(ballPosition1);
-        positionList.add(ballPosition2);
-        positionList.add(ballPosition3);
+        positionList.add(position1);
+        positionList.add(position2);
+        positionList.add(position3);
 
         Ball ball1 = new Ball(0,positionList);
         Ball ball2 = new Ball(1,positionList);

@@ -6,36 +6,34 @@ import javax.swing.*;
 
 class Ball extends JPanel implements Runnable {
 
+    //id to know which balls we compare at collision
     private int id;
+    //ArrayList contains every ball's location, each ball "knows" all the locations
     private ArrayList<Position> positionList;
-
-    private boolean xUp, yUp;
-
-    //current position of ball
-    // private int x, y;
-
-    //new direction and speed after bounce
+    //Boolean for ball directions
+    private boolean directionRight, directionUp;
+    //new direction and speed after bounce, generated randomly later
     private int xDx, yDy;
     //Bouncing frame
     private final int MAX_X = 400, MAX_Y = 360;
-
+    //Set up new color after bounce
     private Random r;
     private Color clr = Color.blue;
 
+    //Default ball attributes
     public Ball(int id, ArrayList<Position> positionList) {
         this.id = id;
         this.positionList = positionList;
-
-        xUp = false;
-        yUp = false;
+        directionRight = false;
+        directionUp = false;
         xDx = 1;
         yDy = 1;
-
         setOpaque(false);
         setPreferredSize(new Dimension(MAX_X, MAX_Y));
         r = new Random();
     }
 
+    //Runs program
     public void run() {
 
         while (true) {
@@ -48,6 +46,7 @@ class Ball extends JPanel implements Runnable {
         }
     }
 
+    //Sets up program's speed
     private void setFps(int milliSecond) {
         try {
             Thread.sleep(milliSecond);
@@ -56,76 +55,81 @@ class Ball extends JPanel implements Runnable {
         }
     }
 
-    private void wallCollision(Position position) {
-        //If bottom frame reached, direction set to up
-        if (position.getY() <= 0) {
-            yUp = true;
-            yDy = (int) (Math.random() * 5 + 2);
-
-
-        } else if (position.getY() >= MAX_Y - 30) {
-            yDy = (int) (Math.random() * 5 + 2);
-            yUp = false;
-
-        }
-
-        if (position.getX() <= 0) {
-            xUp = true;
-            xDx = (int) (Math.random() * 5 + 2);
-
-
-        } else if (position.getX() >= MAX_X - 30) {
-            xUp = false;
-            xDx = (int) (Math.random() * 5 + 2);
-        }
-    }
-
+    //Checks the direction of the ball, moves it to that way
     private void moveBall(Position position) {
         int x = position.getX();
         int y = position.getY();
-        //New random (xDx) generated
-        if (xUp) {
-            //Set x to x+=xdx
-            position.setX(x + xDx);
+
+        if (directionRight) {
+          position.setX(x + xDx);
         } else {
             position.setX(x - xDx);
         }
 
-        if (yUp) {
+        if (directionUp) {
             position.setY(y + yDy);
         } else {
             position.setY(y - yDy);
         }
     }
 
+    //When one of the walls is hit, sets new direction
+    private void wallCollision(Position position) {
+        //If bottom frame hit, direction set to up
+        if (position.getY() <= 0) {
+            directionUp = true;
+            yDy = (int) (Math.random() * 5 + 2);
+
+            //If top frame hit, direction set to down
+        } else if (position.getY() >= MAX_Y - 30) {
+            yDy = (int) (Math.random() * 5 + 2);
+            directionUp = false;
+        }
+
+        //If left frame hit, direction set to right
+        if (position.getX() <= 0) {
+            directionRight = true;
+            xDx = (int) (Math.random() * 5 + 2);
+
+            //If left frame hit, direction set to left
+        } else if (position.getX() >= MAX_X - 30) {
+            directionRight = false;
+            xDx = (int) (Math.random() * 5 + 2);
+        }
+    }
+
     public void ballCollision(Position position) {
         //Copy list
         List<Position> otherPositions = new ArrayList<>(positionList);
+        //Remove ball with the current id from list (not to check collision with itself)
         otherPositions.remove(id);
 
+        //For each loop goes through position of other balls
         for (Position otherPosition : otherPositions
         ) {
+            //Calculates area of balls from balls position
             double xDif = position.getX() - otherPosition.getX();
             double yDif = position.getY() - otherPosition.getY();
             double distanceSquared = xDif * xDif + yDif * yDif;
-
+            //Creates a boolean from calculation
             boolean collision = distanceSquared < (15 + 15) * (15 + 15);
 
+            //If collision through balls get a new (more or less random) direction and random speed, new color
             if (collision) {
                 yDy = (int) (Math.random() * 5 + 2);
                 xDx = (int) (Math.random() * 5 + 2);
                 set(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
 
-                if (!yUp) {
-                    yUp = true;
+                if (!directionUp) {
+                    directionUp = true;
                 } else {
-                    yUp = false;
+                    directionUp = false;
                 }
 
-                if (!xUp) {
-                    xUp = true;
+                if (!directionRight) {
+                    directionRight = true;
                 } else {
-                    xUp = false;
+                    directionRight = false;
                 }
             }
         }
