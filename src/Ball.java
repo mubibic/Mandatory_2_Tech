@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 import javax.swing.*;
 
+
 class Ball extends JPanel implements Runnable {
 
     //id to know which balls we compare at collision
@@ -79,22 +80,30 @@ class Ball extends JPanel implements Runnable {
         if (position.getY() <= 0) {
             directionUp = true;
             yDy = (int) (Math.random() * 5 + 2);
+            set(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
+
 
             //If top frame hit, direction set to down
         } else if (position.getY() >= MAX_Y - 30) {
             yDy = (int) (Math.random() * 5 + 2);
             directionUp = false;
+            set(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
+
         }
 
         //If left frame hit, direction set to right
         if (position.getX() <= 0) {
             directionRight = true;
             xDx = (int) (Math.random() * 5 + 2);
+            set(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
+
 
             //If left frame hit, direction set to left
         } else if (position.getX() >= MAX_X - 30) {
             directionRight = false;
             xDx = (int) (Math.random() * 5 + 2);
+            set(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
+
         }
     }
 
