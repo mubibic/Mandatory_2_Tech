@@ -40,9 +40,11 @@ class Ball extends JPanel implements Runnable {
         while (true) {
             setFps(15);
             Position position = positionList.get(id);
+
             moveBall(position);
             ballCollision(position);
             wallCollision(position);
+
             repaint();
         }
     }
@@ -127,8 +129,10 @@ class Ball extends JPanel implements Runnable {
             if (collision) {
                 yDy = (int) (Math.random() * 5 + 2);
                 xDx = (int) (Math.random() * 5 + 2);
+                //New color
                 set(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
 
+                //Change new direction to opposite of current direction
                 if (!directionUp) {
                     directionUp = true;
                 } else {
