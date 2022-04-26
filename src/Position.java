@@ -1,5 +1,4 @@
-package src;
-
+//Actual coordinates of the ball
 public class Position {
     private int x;
     private int y;
