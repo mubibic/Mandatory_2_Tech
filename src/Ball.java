@@ -6,15 +6,15 @@ import javax.swing.*;
 
 class Ball extends JPanel implements Runnable {
 
-    //id variable to know which balls we compare at collision
+    //id variable to know which balls we compare at collision / The ball objects id is equal to the arraylist index
     private int id;
     //ArrayList contains every ball's location, each ball "knows" all the locations
     private ArrayList<Position> positionList;
     //Boolean for ball directions
     private boolean directionRight, directionUp;
-    // random speed generated after collision
+    //Random speed (btw 2 and 7) generated after collision
     private int xDelta, yDelta;
-    //Bouncing frame
+    //Bouncing frame size of Jpanel = Windows frame - header(40px)
     private final int MAX_X = 400, MAX_Y = 360;
     //Set up new color after bounce
     private Random r;
@@ -43,9 +43,8 @@ class Ball extends JPanel implements Runnable {
             Position position = positionList.get(id);
 
             moveBall(position);
-            ballCollision(position);
             wallCollision(position);
-
+            ballCollision(position);
             repaint();
         }
     }
@@ -79,33 +78,32 @@ class Ball extends JPanel implements Runnable {
 
     //When one of the walls is hit, sets new direction and color
     private void wallCollision(Position position) {
-        int random = (int) (Math.random() * 5 + 2);
 
         //If bottom frame hit, direction set to up
         if (position.getY() <= 0) {
             directionUp = true;
-            yDelta = random;
-            set(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
+            yDelta = randomSpeed();
+            setNewColor();
 
 
-        //If top frame hit, direction set to down
+            //If top frame hit, direction set to down
         } else if (position.getY() >= MAX_Y - 30) {
-            yDelta = random;
+            yDelta = randomSpeed();
             directionUp = false;
-            set(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
+            setNewColor();
         }
 
         //If left frame hit, direction set to right
         if (position.getX() <= 0) {
             directionRight = true;
-            xDelta = random;
-            set(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
+            xDelta = randomSpeed();
+            setNewColor();
 
-        //If right frame hit, direction set to left
+            //If right frame hit, direction set to left
         } else if (position.getX() >= MAX_X - 30) {
             directionRight = false;
-            xDelta = random;
-            set(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
+            xDelta = randomSpeed();
+            setNewColor();
         }
     }
 
@@ -116,29 +114,19 @@ class Ball extends JPanel implements Runnable {
         otherPositions.remove(id);
 
         //For each loop goes through position of other balls
-        for (Position otherPosition : otherPositions
-        ) {
+        for (Position otherPosition : otherPositions) {
             boolean collision = isColliding(position, otherPosition);
 
-            //If collision through balls get a new (more or less random) direction and random speed, new color
+            //If collision is true the ball gets new random direction, speed and new color
             if (collision) {
-                yDelta = (int) (Math.random() * 5 + 2);
-                xDelta = (int) (Math.random() * 5 + 2);
+                yDelta = randomSpeed();
+                xDelta = randomSpeed();
                 //New color
-                set(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
+                setNewColor();
 
                 //Change new direction to opposite of current direction
-                if (!directionUp) {
-                    directionUp = true;
-                } else {
-                    directionUp = false;
-                }
-
-                if (!directionRight) {
-                    directionRight = true;
-                } else {
-                    directionRight = false;
-                }
+                directionRight = !directionRight;
+                directionUp = !directionUp;
             }
         }
     }
@@ -159,15 +147,17 @@ class Ball extends JPanel implements Runnable {
         int y = positionList.get(id).getY();
 
         super.paint(gr);
-        gr.setColor(get());
+        gr.setColor(clr);
         gr.fillOval(x, y, 30, 30);
     }
 
-    public void set(Color c) {
-        clr = c;
+    //Method for creating random color
+    private void setNewColor() {
+        clr = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
     }
 
-    public Color get() {
-        return clr;
-    }
+    //Generates a random integer speed
+    public int randomSpeed(){
+    return (int) (Math.random() * 5 + 2);}
+
 }
