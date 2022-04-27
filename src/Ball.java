@@ -13,7 +13,7 @@ class Ball extends JPanel implements Runnable {
     private ArrayList<Position> positionList;
     //Boolean for ball directions
     private boolean directionRight, directionUp;
-    //Random speed (btw 2 and 7) generated after collision
+    //Random speed (1-7) generated after collision
     private int xDelta, yDelta;
     //Bouncing frame size of Jpanel = Windows frame - header(40px)
     private final int MAX_X = 400, MAX_Y = 360;
@@ -127,6 +127,7 @@ class Ball extends JPanel implements Runnable {
         }
     }
 
+    //Returns boolean true if two balls collide
     private boolean isColliding(Position position, Position otherPosition) {
         //Calculates area of balls from balls position
         double xDif = position.getX() - otherPosition.getX();
@@ -137,7 +138,7 @@ class Ball extends JPanel implements Runnable {
         return collision;
     }
 
-    //Creates ball and fills it out with color for graphical display
+    //Creates colored ball for graphical display
     public void paint(Graphics gr) {
         int x = positionList.get(id).getX();
         int y = positionList.get(id).getY();
@@ -154,6 +155,6 @@ class Ball extends JPanel implements Runnable {
 
     //Generates a random integer speed
     public int randomSpeed(){
-    return (int) (Math.random() * 5 + 2);}
+    return (int) (Math.random() * 6 + 1);}
 
 }
