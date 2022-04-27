@@ -6,7 +6,8 @@ import javax.swing.*;
 
 class Ball extends JPanel implements Runnable {
 
-    //id variable to know which balls we compare at collision / The ball objects id is equal to the arraylist index
+    //id variable to know which balls we compare at collision
+    //The ball objects id is equal to the arraylist index
     private int id;
     //ArrayList contains every ball's location, each ball "knows" all the locations
     private ArrayList<Position> positionList;
@@ -68,7 +69,6 @@ class Ball extends JPanel implements Runnable {
         } else {
             position.setX(x - xDelta);
         }
-
         if (directionUp) {
             position.setY(y + yDelta);
         } else {
@@ -78,13 +78,11 @@ class Ball extends JPanel implements Runnable {
 
     //When one of the walls is hit, sets new direction and color
     private void wallCollision(Position position) {
-
         //If bottom frame hit, direction set to up
         if (position.getY() <= 0) {
             directionUp = true;
             yDelta = randomSpeed();
             setNewColor();
-
 
             //If top frame hit, direction set to down
         } else if (position.getY() >= MAX_Y - 30) {
@@ -92,13 +90,11 @@ class Ball extends JPanel implements Runnable {
             directionUp = false;
             setNewColor();
         }
-
         //If left frame hit, direction set to right
         if (position.getX() <= 0) {
             directionRight = true;
             xDelta = randomSpeed();
             setNewColor();
-
             //If right frame hit, direction set to left
         } else if (position.getX() >= MAX_X - 30) {
             directionRight = false;
